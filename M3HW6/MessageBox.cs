@@ -8,20 +8,13 @@ namespace M3HW6
 
         public async void Open()
         {
-            Task.Run(() =>
-            {
-                Console.WriteLine("The window is opened");
+            Console.WriteLine("The window is opened");
 
-                Task.Delay(3000).GetAwaiter().GetResult();
+            await Task.Delay(3000);
 
-                Console.WriteLine("The window is closed");
+            Console.WriteLine("The window is closed");
 
-                Array states = Enum.GetValues(typeof(State));
-
-                var randomState = (State)states.GetValue(new Random().Next(states.Length));
-
-                CloseWindowHandler(randomState);
-            }).GetAwaiter().GetResult();
+            CloseWindowHandler((State)new Random().Next(0, 2));
         }
     }
 }

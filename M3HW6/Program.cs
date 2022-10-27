@@ -2,11 +2,13 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static async Task Main()
         {
             var messageBox = new MessageBox();
 
-            messageBox.CloseWindowHandler += (State state) =>
+            var tcs = new TaskCompletionSource<State>();
+
+            messageBox.CloseWindowHandler += (state) =>
             {
                 if (state == State.Ok)
                 {
@@ -17,9 +19,13 @@
                 {
                     Console.WriteLine("Operation was rejected");
                 }
+
+                tcs.SetResult(state);
             };
 
             messageBox.Open();
+
+            await tcs.Task;
         }
     }
 }
